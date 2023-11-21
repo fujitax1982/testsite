@@ -1,16 +1,47 @@
 // your-script.js
 
-// QRコードを読み取る関数
-function readQRCode() {
-  const qrCodeText = document.getElementById('qrCodeText').value;
+// カメラへのアクセスをリクエスト
+navigator.mediaDevices
+  .getUserMedia({ video: { facingMode: { exact: "environment" } } }) // バックカメラを使用
+  .then((stream) => {
+    const videoElement = document.getElementById("video");
+    videoElement.srcObject = stream;
 
-  // QRコードに含まれる数字とベースURLを足して誘導先URLを生成
-  const baseURL = 'https://example.com/';
-  const redirectURL = baseURL + qrCodeText;
+    // QRコード読み取り処理
+    const canvasElement = document.getElementById("canvas");
+    const context = canvasElement.getContext("2d");
 
-  // リダイレクト
-  window.location.href = redirectURL;
-}
+    const videoWidth = videoElement.videoWidth;
+    const videoHeight = videoElement.videoHeight;
+    canvasElement.width = videoWidth;
+    canvasElement.height = videoHeight;
 
-// ボタンクリック時にQRコードを読み取る関数を呼び出す
-document.getElementById('readQRCodeButton').addEventListener('click', readQRCode);
+    const qrCodeResultElement = document.getElementById("result");
+
+    function scanQRCode() {
+      context.drawImage(videoElement, 0, 0, videoWidth, videoHeight);
+      const imageData = context.getImageData(0, 0, videoWidth, videoHeight);
+      const code = jsQR(imageData.data, imageData.width, imageData.height, {
+        inversionAttempts: "dontInvert",
+      });
+
+      if (code) {
+        qrCodeResultElement.textContent = "QRコードを読み取りました: " + code.data;
+        const baseURL = "https://example.com/";
+        const redirectTo = baseURL + code.data;
+        window.location.href = redirectTo; // リダイレクト
+      } else {
+        qrCodeResultElement.textContent = "QRコードが見つかりません";
+      }
+
+      requestAnimationFrame(scanQRCode);
+    }
+
+    videoElement.addEventListener("loadedmetadata", () => {
+      videoElement.play();
+      requestAnimationFrame(scanQRCode);
+    });
+  })
+  .catch((error) => {
+    console.error("カメラへのアクセスに失敗しました:", error);
+  });

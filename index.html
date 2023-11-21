@@ -6,10 +6,8 @@
 </head>
 <body>
   <h1>QRコード読み取り</h1>
-  <form>
-    <input type="text" id="qrCodeText" placeholder="QRコードをスキャンしてください">
-    <button type="button" id="readQRCodeButton">QRコードを読む</button>
-  </form>
+  <video id="video" autoplay playsinline></video>
+  <canvas id="canvas" style="display: none;"></canvas>
   <div id="result"></div>
 
   <script src="your-script.js"></script>
