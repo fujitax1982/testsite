@@ -31,22 +31,25 @@ var query_paperwidth = 'paper-width';            //用紙幅の指定(mm)       
 
 var xmlData ='<epos-print xmlns="http://www.epson-pos.com/schemas/2011/03/epos-print">\n' +
 
-	'<text>                                &#10;</text>\n' +
-	'<text>------------------------------- &#10;</text>\n' +
-	'<text>member_id   :0809991100 &#10;</text>\n' +
-	'<text>Reception_No:3396999 &#10;\n</text>' +
-	'<text>Car_number  :5210 &#10;</text>\n' +
-	'<text>Rental_Date :2023-12-25 09:30 &#10;</text>\n' +
-	'<text>Return _Date:2023-12-29 17:00 &#10;</text>\n' +	
-	'<text>Add Drivers     :Yes &#10;</text>\n' +
-	'<text>Indemnification :Yes &#10;</text>\n' +
-	'<text>NOC Compensation:No &#10;</text>\n' +
-	'<text>JAF Support     :Yes &#10;</text>\n' +
-	'<text>Drivers under 24 years old:No &#10;</text>\n' +
-	'<text>------------------------------- &#10;</text>\n' +
-	'<feed line="3"/>\n' +
-	'<cut type="feed"/>\n' +
-	'</epos-print>'; //ePOS-Print XMLデータ
+'<text lang="ja"/></text>\n' +
+'<text smooth="true"/></text>\n' +
+'<text>受付No:34562</text>\n' +
+'<text>連絡先:0786821610</text>\n' +
+'<text>出発店舗:札幌駅前ANAクラウンプラザホテル札幌店</text>\n' +
+'<text>返却店舗:新千歳空港ラベンダー店</text>\n' +
+'<text>出発日時:2023-12-25 16:00</text>\n' +
+'<text>返却日時:2023-12-29 16:00</text>\n' +
+'<text>車両種別:N-WGN</text>\n' +
+'<text>借受人氏名:フジタサダオ</text>\n' +
+'<text>運転者氏名:フジタサダオ</text>\n' +
+'<text>ドライバー追加:追加あり</text>\n' +
+'<text>免責補償:加入あり</text>\n' +
+'<text>JAFサポート:加入なし</text>\n' +
+'<text>NOC補償:加入あり</text>\n' +
+'<text>24歳以下の運転者:含まれる</text>\n' +
+'<feed line="3"/>\n' +
+'<cut type="feed"/>\n' +
+'</epos-print>'; //ePOS-Print XMLデータ
 
 //コマンド印刷
 function sendXml() {
