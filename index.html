@@ -1,78 +1,25 @@
-
-
 <!DOCTYPE html>
-<html lang="ja">
+<html>
 <head>
-<meta charset="utf-8" />
-<title>TM Print Assistant sample</title>
-<!-- CSS -->
-<style type="text/css">
-button {
-	font-size: 80px;
-	width: 800px;
-	height: 200px;
-}
-</style>
-
-<!-- Script -->
-<script type="text/javascript">
-
-var appscheme = 'tmprintassistant://';           //scheme名                                       入力必須
-var host = 'tmprintassistant.epson.com/';        //host名                                         入力必須
-var action = 'print?';                           //action名                                       入力必須
-var query_success = 'success';                   //TM Print Assistantが正常終了した場合に表示するURL   省略可能
-var query_ver = 'ver';                           //バージョン番号                                   入力必須
-var query_datatype = 'data-type';                //印刷データの種類                                  入力必須
-var query_data = 'data';                         //印刷データ                                       入力必須
-var query_reselect = 'reselect';                 //通信エラー時のプリンター再設定                      省略可能（初期値：no）
-var query_cut = 'cut';                           //カッター設定                                     省略可能（初期値：no）
-var query_fittowidth = 'fit-to-width';           //用紙幅に合わせて拡大縮小(対応 data-type : pdf)      省略可能（初期値：no）
-var query_paperwidth = 'paper-width';            //用紙幅の指定(mm)                                 省略可能（初期値：80）
-
-var xmlData ='<epos-print xmlns="http://www.epson-pos.com/schemas/2011/03/epos-print">\n' +
-'<text lang="ja"/>\n' +
-'<text smooth="true"/>\n' +
-'<text>受付No:34562 &#10;</text>\n' +
-'<text>連絡先:0786821610 &#10;</text>\n' +
-'<text>出発店舗:札幌駅前ANAクラウンプラザホテル札幌店 &#10;</text>\n' +
-'<text>返却店舗:新千歳空港ラベンダー店 &#10;</text>\n' +
-'<text>出発日時:2023-12-25 16:00 &#10;</text>\n' +
-'<text>返却日時:2023-12-29 16:00 &#10;</text>\n' +
-'<text>車両種別:N-WGN &#10;</text>\n' +
-'<text>借受人氏名:フジタサダオ &#10;</text>\n' +
-'<text>運転者氏名:フジタサダオ &#10;</text>\n' +
-'<text>ドライバー追加:追加あり &#10;</text>\n' +
-'<text>免責補償:加入あり &#10;</text>\n' +
-'<text>JAFサポート:加入なし &#10;</text>\n' +
-'<text>NOC補償:加入あり &#10;</text>\n' +
-'<text>24歳以下の運転者:含まれる &#10;</text>\n' +
-'<feed line="3"/>\n' +
-'<cut type="feed"/>\n' +
-'</epos-print>'; //ePOS-Print XMLデータ
-
-//コマンド印刷
-function sendXml() {
-	var success = window.location.href;
-	var ver = '1';
-	var datatype = 'eposprintxml';
-	var htmlData = '';
-	var reselect = 'yes';
-	var urldata = '';
-
-	urlData = appscheme + host + action + 
-		query_success + '=' + encodeURIComponent(success) + '&' + 
-		query_ver + '=' + ver + '&' + 
-		query_datatype + '=' + datatype + '&' + 
-		query_reselect + '=' + reselect + '&' + 
-		query_data + '=' + encodeURIComponent(xmlData);
-	location.href = urlData;
-}
-
-</script>
+    <title>QR Code Scanner</title>
+    <script type="text/javascript" src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script>
 </head>
-
-<body >
-	<h1>Epson TM Print Assistant サンプルプログラム</h1>
-	<p><button onclick="sendXml()">コマンド印刷</button></p>
+<body>
+    <video id="preview"></video>
+    <script type="text/javascript">
+        let scanner = new Instascan.Scanner({ video: document.getElementById('preview') });
+        scanner.addListener('scan', function (content) {
+            window.location.href = content; // URLに遷移
+        });
+        Instascan.Camera.getCameras().then(function (cameras) {
+            if (cameras.length > 0) {
+                scanner.start(cameras[0]);
+            } else {
+                console.error('No cameras found.');
+            }
+        }).catch(function (e) {
+            console.error(e);
+        });
+    </script>
 </body>
 </html>
