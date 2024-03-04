@@ -1,0 +1,70 @@
+
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8" />
+<title>TM Print Assistant sample</title>
+<!-- CSS -->
+<style type="text/css">
+button {
+	font-size: 80px;
+	width: 800px;
+	height: 200px;
+}
+</style>
+
+<!-- Script -->
+<script type="text/javascript">
+
+var appscheme = 'tmprintassistant://';           //scheme名                                       入力必須
+var host = 'tmprintassistant.epson.com/';        //host名                                         入力必須
+var action = 'print?';                           //action名                                       入力必須
+var query_success = 'success';                   //TM Print Assistantが正常終了した場合に表示するURL   省略可能
+var query_ver = 'ver';                           //バージョン番号                                   入力必須
+var query_datatype = 'data-type';                //印刷データの種類                                  入力必須
+var query_data = 'data';                         //印刷データ                                       入力必須
+var query_reselect = 'reselect';                 //通信エラー時のプリンター再設定                      省略可能（初期値：no）
+var query_cut = 'cut';                           //カッター設定                                     省略可能（初期値：no）
+var query_fittowidth = 'fit-to-width';           //用紙幅に合わせて拡大縮小(対応 data-type : pdf)      省略可能（初期値：no）
+var query_paperwidth = 'paper-width';            //用紙幅の指定(mm)                                 省略可能（初期値：80）
+
+var xmlData ='<epos-print xmlns="http://www.epson-pos.com/schemas/2011/03/epos-print">\n' +
+	'<text align="center"/>\n' +
+	'<image width="188" height="135" color="color_1" mode="mono">AAAAAAAAAAAACAAAAACAAAAAGAAAAAAAAAAAAAAH////+B/+B/+AH///+AAAAAAAAAAAAAAH////+B/8B/+A////+AAAAAAAAAAAAAAH////+D/+B/+A////8AAAAAAAAAAAAAAP////8D/8D/8A////8AAAAAAAAAAAAAAP////8D/8D/+B////8AAAAAAAAAAAAAAP////8H/8D/8B////4AAAAAAAAAAAAAAf////8H/4H/8B////4AAAAAAAAAAAAAAP////8H/4H/8B////4AAAAAAAAAAAAAAf////4H/4H/4D////4AAAAAAAAAAAAAAf////4H/4H/4D////wAAAAAAAAAAAAAAf///8AP/4H/4D////wAAAAAAAAAAAAAAf//+AAP/wP/4H//+AAAAAAAAAAAAAAAAgA/+AAP/wP/4D/4AAAAAAAAAAAAAAAAAAB/+AAP/wP/4H/wAAAAAAAAAAAAAAAAAAB/8AAP/gP/wH/wAAAAAAAAAAAAAAAAAAB/8AAf/gf/wH/wAAAAAAAAAAAAAAAAAAD/8AAf/gf/wP/gAAAAAAAAAAAAAAAAAAD/4AAf/gf/wP/gAAAAAAAAAAAAAAAAAAD/4AA//gf/gP/gAAAAAAAAAAAAAAAAAAD/4AA//A//gP/gAAAAAAAAAAAAAAAAAAD/4AA//A//gf/gAAAAAAAAAAAAAAAAAAD/4AA//A//gf/AAAAAAAAAAAAAAAAAAAH/4AA/+A//gf/AAAAAAAAAAAAAAAAAAAH/wAA/+A//Af/AAAAAAAAAAAAAAAAAAAH/wAB/////A////wAAAAAAAAAAAAAAAAP/wAB/////A////gAAAAAAAAAAAAAAAAP/wAB/////A////gAAAAAAAAAAAAAAAAP/wAD/////A////gAAAAAAAAAAAAAAAAP/gAD/////B////gAAAAAAAAAAAAAAAAP/gAD////+B////gAAAAAAAAAAAAAAAAf/gAD////+B////AAAAAAAAAAAAAAAAAf/AAD////+D////AAAAAAAAAAAAAAAAAf/AAD////+B////AAAAAAAAAAAAAAAAAf/AAH////8D///+AAAAAAAAAAAAAAAAAf/AAH////8D///+AAAAAAAAAAAAAAAAA//AAH/+H/8D///+AAAAAAAAAAAAAAAAA//AAH/4H/8H/8AAAAAAAAAAAAAAAAAAA/+AAH/4H/8H/4AAAAAAAAAAAAAAAAAAB/+AAP/wH/8H/4AAAAAAAAAAAAAAAAAAB/+AAP/wH/4H/wAAAAAAAAAAAAAAAAAAB/8AAP/wP/4P/wAAAAAAAAAAAAAAAAAAB/8AAf/wP/4P/wAAAAAAAAAAAAAAAAAAB/8AAf/wP/4P////gAAAAAAAAAAAAAAAD/8AAf/wf/wP////wAAAAAAAAAAAAAAAD/8AAf/gf/wf////wAAAAAAAAAAAAAAAD/8AAf/gf/wf////gAAAAAAAAAAAAAAAD/4AAf/gf/wf////gAAAAAAAAAAAAAAAH/4AA//gf/wf////gAAAAAAAAAAAAAAAH/4AA//gf/wf////gAAAAAAAAAAAAAAAH/4AA//g//g/////gAAAAAAAAAAAAAAAH/4AB//A//g/////gAAAAAAAAAAAAAAAH/4AA//A//g/////AAAAAAAAAAAAAAAAP/wAB//B//g/////AAAAAAAAAAAAAAAAP/wAB//A//h/////AAAAAAAAAAAAAAAAP/wAB/+B//h////gAAAAAAAAAAAAAAAAAAAAB/+B//B/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAB/AAAAAAABAAA/AAAAAAAAAAAAAEAAAAP/4AH/////AAH/4AAAf/AAAAAP/8AAAA//8AH/////AAf/8AB///4AA////8AAAD///AH////+AB//+AD///8AB////4AAAH///gH////+AD///AD///+AB////4AAAf///gH////+AP///gD////AB////4AAA////wH////8Af///gH////gD////4AAB////wP////8Af///gH////gD////4AAD////4P////8A////gH////gD////wAAH////4P////8B////gH////gD////wAAP////4P////8B////gP////gH////wAAP//P/4P///+AD/+P/gP////gH////gAAf/8H/4f//+AAD/8P/gP/gf/gH///+AAAf/4H/4YA/+AAH/4P/gP/gP/gP/wAAAAAf/wH/4AA/+AAH/wP/gP/AP/gP/gAAAAA//wH/4AB/+AAP/wP/gf/AP/gP/gAAAAA//gP/4AB/+AAP/gP/gf/AP/gP/gAAAAA//gP/4AB/8AAf/gP/gf/AP/gP/gAAAAA//gP/wAB/8AA//AP/gf+AP/gf/AAAAAA//wP/gAB/8AA//AP/g/+Af/gf/AAAAAA//4AAAAD/8AA/+Af/g/+Af/Af/AAAAAA//8AAAAD/4AA/+Af/g/+A//A//AAAAAA//+AAAAD/4AB/+Af/g/8B/+A//AAAAAA///AAAAD/4AB/8A//A/8D/+A//AAAAAA///gAAAD/4AD/8A//B/8H/+A/+AAAAAAf//wAAAH/4AD/8A//B/8P/8A/+f/gAAAf//8AAAH/wAD/4A//B/4//4B////gAAAP//+AAAH/wAD/4A//B/5//4B////gAAAH///AAAP/wAH/4A/+B////wB////AAAAD///AAAP/wAH/wB/+D////gB////AAAAB///gAAP/wAH/wB/8D////AB////AAAAA///wAAP/gAH/wD/8D////AD////AAAAAP//wAAP/gAH/wB/8D///8AD///+AAAAAH//4AAP/gAP/gD/8H///4AD///+AAAAAB//4AAf/gAP/gH/4H///wAH///+AAAAAA//8AAf/AAP/gH/4H///wAH///+AAAAAAf/8AAf/AAP/AH/wH///4AH///8AAAAAAP/8AA//AAf/AP/wH///4AH//+AAAAAAAH/8AAf/AAf/AP/wP///4AH/wAAAAAAAAH/8AA//AAf/Af/gP/3/8AP/wAAAAAAAAH/8AA//AAf+Af/gP/D/8AP/wAAAAAAAAH/8AA/+AAf+A//Af/D/8AP/gAAAAAAAAH/8AB/+AAf+B//Af/D/+Af/gAAAAAAAAH/8AB/+AAf+B/+Af/B/+Af/gAAAAADgAP/8AB/+AAf+H/+Af+B/+Af////gAAD8Af/4AB/8AAf///8Af+B//Af////gAAH////4AB/8AAf///8A/+A//A/////gAAH////wAD/8AAf///4A/+A//g/////gAAP////wAD/8AAf///wA/+A//g/////AAAP////gAD/8AAf///wA/+A//g/////AAAf////AAD/4AAf///gA/8A//w/////AAAf///+AAH/4AAP///AB/8Af/h/////AAA////8AAH/4AAP//8AB/8Af/B////+AAA////4AAH/4AAH//4AB/8Af+B////+AAAf///wAAH/4AAD//wAD/4AfwB////+AAAH///AAAP/4AAA//AAD/8AfgD////8AAAA//8AAAPwAAAAPwAAD/4APAD//8AAAAAAAAAAAAAAAAAAAAAAAAAAMACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</image>\n' +
+	'<feed unit="30"/>\n' +
+	'<text>Total Number of Items Purchased &#10;</text>\n' +
+	'<text>      Sign Up and Save !        &#10;</text>\n' +
+	'<text>  With Preferred Saving Card    &#10;</text>\n' +
+	'<text>                                &#10;</text>\n' +
+	'<barcode type="code39" hri="none" font="font_a" width="2" height="75">012345678</barcode>\n' +
+	'<feed line="3"/>\n' +
+	'<cut type="feed"/>\n' +
+	'</epos-print>'; //ePOS-Print XMLデータ
+
+//コマンド印刷
+function sendXml() {
+	var success = window.location.href;
+	var ver = '1';
+	var datatype = 'eposprintxml';
+	var htmlData = '';
+	var reselect = 'yes';
+	var urldata = '';
+
+	urlData = appscheme + host + action + 
+		query_success + '=' + encodeURIComponent(success) + '&' + 
+		query_ver + '=' + ver + '&' + 
+		query_datatype + '=' + datatype + '&' + 
+		query_reselect + '=' + reselect + '&' + 
+		query_data + '=' + encodeURIComponent(xmlData);
+	location.href = urlData;
+}
+
+</script>
+</head>
+
+<body>
+	<h1>Epson TM Print Assistant サンプルプログラム</h1>
+	<p><button onclick="sendXml()">コマンド印刷</button></p>
+</body>
+</html>
