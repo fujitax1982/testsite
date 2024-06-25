@@ -1,23 +1,31 @@
 const cameraWidth = 300;
 const cameraHeight = 400;
 
-const cameraInit = () => {
-  const video = document.getElementById("camera");
+const cameraInitSmartphoneSupport = async () => {
+    const video = document.getElementById("camera");
 
-  const cameraSetting = {
-    audio: false,
-    video: {
-      width: cameraWidth,
-      height: cameraHeight,
-      facingMode: "user",
+    // 利用可能なカメラデバイスのリストを取得
+    const devices = await navigator.mediaDevices.enumerateDevices();
+    const videoDevices = devices.filter(device => device.kind === 'videoinput');
+
+    // 前面カメラを見つける
+    let frontCamera = videoDevices.find(device => device.label.toLowerCase().includes('front')) || videoDevices[0];
+
+    const cameraSetting = {
+        audio: false,
+        video: {
+            deviceId: { exact: frontCamera.deviceId },
+            width: cameraWidth,
+            height: cameraHeight,
+            facingMode: "user"
+        }
+    };
+
+    // カメラを起動
+    try {
+        const mediaStream = await navigator.mediaDevices.getUserMedia(cameraSetting);
+        video.srcObject = mediaStream;
+    } catch (err) {
+        console.error('Error accessing the camera: ', err);
     }
-  };
-
-  navigator.mediaDevices.getUserMedia(cameraSetting)
-    .then((mediaStream) => {
-      video.srcObject = mediaStream;
-    })
-    .catch((err) => {
-      console.log(err.toString());
-    });
-};
+}
