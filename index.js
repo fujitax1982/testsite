@@ -9,7 +9,7 @@ const cameraInit = () => {
         video: {
             width: cameraWidth,
             height: cameraHeight,
-            facingMode: "environment",
+            facingMode: "user",
         }
     }
 
