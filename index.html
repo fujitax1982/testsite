@@ -1,9 +1,22 @@
 <html>
-
 <head>
   <script src="index.js"></script>
-</head>
+  <style>
+    input[type="button"] {
+      font-size: 20px; /* フォントサイズを大きくする */
+      padding: 15px 30px; /* 内側の余白を大きくする */
+      background-color: #4CAF50; /* ボタンの背景色 */
+      color: white; /* ボタンのテキスト色 */
+      border: none; /* 枠線を消す */
+      border-radius: 5px; /* ボタンの角を丸くする */
+      cursor: pointer; /* カーソルをポインタにする */
+    }
 
+    input[type="button"]:hover {
+      background-color: #45a049; /* ホバー時の背景色 */
+    }
+  </style>
+</head>
 <body>
   <div>
     <input type="button" value="カメラ起動" onclick="cameraInitSmartphoneSupport()">
@@ -12,5 +25,4 @@
     <video id="camera" autoplay muted playsinline></video>
   </div>
 </body>
-
 </html>
