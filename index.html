@@ -1,6 +1,10 @@
-<html>
+<!DOCTYPE html>
+<html lang="ja">
 <head>
-  <script src="index.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Camera Test</title>
+  <script src="index.js" defer></script>
   <style>
     input[type="button"] {
       font-size: 20px; /* フォントサイズを大きくする */
@@ -19,7 +23,7 @@
 </head>
 <body>
   <div>
-    <input type="button" value="カメラ起動" onclick="cameraInitSmartphoneSupport()">
+    <input type="button" value="カメラ起動" onclick="cameraInit()">
   </div>
   <div>
     <video id="camera" autoplay muted playsinline></video>
