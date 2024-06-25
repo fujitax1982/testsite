@@ -2,22 +2,22 @@ const cameraWidth = 300;
 const cameraHeight = 400;
 
 const cameraInit = () => {
-    const video = document.getElementById("camera");
+  const video = document.getElementById("camera");
 
-    const cameraSetting = {
-        audio: false,
-        video: {
-            width: cameraWidth,
-            height: cameraHeight,
-            facingMode: "user",
-        }
+  const cameraSetting = {
+    audio: false,
+    video: {
+      width: cameraWidth,
+      height: cameraHeight,
+      facingMode: "user",
     }
+  };
 
-    navigator.mediaDevices.getUserMedia(cameraSetting)
-        .then((mediaStream) => {
-            video.srcObject = mediaStream;
-        })
-        .catch((err) => {
-            console.log(err.toString());
-        });
-}
+  navigator.mediaDevices.getUserMedia(cameraSetting)
+    .then((mediaStream) => {
+      video.srcObject = mediaStream;
+    })
+    .catch((err) => {
+      console.log(err.toString());
+    });
+};
