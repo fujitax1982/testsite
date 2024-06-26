@@ -1,3 +1,6 @@
+const cameraWidth = 300;
+const cameraHeight = 400;
+
 const cameraInitSmartphoneSupport = async () => {
     const video = document.getElementById("camera");
 
@@ -23,7 +26,8 @@ const cameraInitSmartphoneSupport = async () => {
             video: {
                 deviceId: { exact: frontCamera.deviceId },
                 width: { ideal: cameraWidth },
-                height: { ideal: cameraHeight }
+                height: { ideal: cameraHeight },
+                facingMode: "user"
             }
         };
 
