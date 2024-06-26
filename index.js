@@ -21,7 +21,7 @@ const cameraInitSmartphoneSupport = async () => {
         const cameraSetting = {
             audio: false,
             video: {
-                deviceId: { exact: frontCamera.deviceId },
+                deviceId: { frontCamera.deviceId },
                 width: { ideal: 1280 },
                 height: { ideal: 720 },
                 facingMode: "user"
