@@ -6,11 +6,15 @@ const cameraInitSmartphoneSupport = async () => {
 
     // 利用可能なカメラデバイスのリストを取得
     const devices = await navigator.mediaDevices.enumerateDevices();
+    console.log('Devices:', devices);
+    
     const videoDevices = devices.filter(device => device.kind === 'videoinput');
-
+　　 console.log('Video devices:', videoDevices);
+    
     // 前面カメラを見つける
     let frontCamera = videoDevices.find(device => device.label.toLowerCase().includes('front')) || videoDevices[0];
-
+    console.log('Using front camera:', frontCamera);
+    
     const cameraSetting = {
         audio: false,
         video: {
