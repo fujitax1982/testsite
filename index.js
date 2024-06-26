@@ -5,17 +5,21 @@ const cameraInitSmartphoneSupport = async () => {
     const video = document.getElementById("camera");
 
     try {
-        // 利用可能なカメラデバイスのリストを取得
         const devices = await navigator.mediaDevices.enumerateDevices();
-        const videoDevices = devices.filter(device => device.kind === 'videoinput');
+        console.log('Devices:', devices);
 
-        // 前面カメラを見つける
+        const videoDevices = devices.filter(device => device.kind === 'videoinput');
+        console.log('Video devices:', videoDevices);
+
         let frontCamera = videoDevices.find(device => device.label.toLowerCase().includes('front')) || videoDevices[0];
 
         if (!frontCamera) {
             console.error('Front camera not found');
+            alert('前面カメラが見つかりませんでした。');
             return;
         }
+
+        console.log('Using front camera:', frontCamera);
 
         const cameraSetting = {
             audio: false,
@@ -27,11 +31,20 @@ const cameraInitSmartphoneSupport = async () => {
             }
         };
 
-        // カメラを起動
         const mediaStream = await navigator.mediaDevices.getUserMedia(cameraSetting);
         video.srcObject = mediaStream;
     } catch (err) {
         console.error('Error accessing the camera: ', err);
-        alert('カメラにアクセスできませんでした。ブラウザの設定を確認してください。');
+        if (err.name === 'NotAllowedError') {
+            alert('カメラへのアクセスが拒否されました。ブラウザの設定を確認してください。');
+        } else if (err.name === 'NotFoundError') {
+            alert('カメラが見つかりませんでした。デバイスを確認してください。');
+        } else if (err.name === 'NotReadableError') {
+            alert('カメラにアクセスできませんでした。他のアプリがカメラを使用している可能性があります。');
+        } else if (err.name === 'OverconstrainedError') {
+            alert('指定されたカメラの設定がサポートされていません。');
+        } else {
+            alert(`カメラにアクセスできませんでした: ${err.name} - ${err.message}`);
+        }
     }
 }
