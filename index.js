@@ -22,14 +22,27 @@ const cameraInitSmartphoneSupport = async () => {
             audio: false,
             video: {
                 deviceId: { exact: frontCamera.deviceId },
-                width: { min: 640, ideal: 1280, max: 1920 },
-                height: { min: 480, ideal: 720, max: 1080 },
+                width: { ideal: 1280 },
+                height: { ideal: 720 },
                 facingMode: "user"
             }
         };
 
-        const mediaStream = await navigator.mediaDevices.getUserMedia(cameraSetting);
-        video.srcObject = mediaStream;
+        try {
+            const mediaStream = await navigator.mediaDevices.getUserMedia(cameraSetting);
+            video.srcObject = mediaStream;
+        } catch (innerErr) {
+            console.warn('Initial settings failed, trying default settings', innerErr);
+            // デフォルトの設定で再試行
+            const defaultSettings = {
+                audio: false,
+                video: {
+                    deviceId: { exact: frontCamera.deviceId }
+                }
+            };
+            const mediaStream = await navigator.mediaDevices.getUserMedia(defaultSettings);
+            video.srcObject = mediaStream;
+        }
     } catch (err) {
         console.error('Error accessing the camera: ', err);
         if (err.name === 'NotAllowedError') {
