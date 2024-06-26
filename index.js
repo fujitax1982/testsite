@@ -21,7 +21,9 @@ const cameraInitSmartphoneSupport = async () => {
         const cameraSetting = {
             audio: false,
             video: {
-                deviceId: { exact: frontCamera.deviceId }
+                deviceId: { exact: frontCamera.deviceId },
+                width: { ideal: cameraWidth },
+                height: { ideal: cameraHeight }
             }
         };
 
@@ -41,6 +43,4 @@ const cameraInitSmartphoneSupport = async () => {
             alert(`カメラにアクセスできませんでした: ${err.name} - ${err.message}`);
         }
     }
-}
-
 }
