@@ -1,6 +1,3 @@
-const cameraWidth = 300;
-const cameraHeight = 400;
-
 const cameraInitSmartphoneSupport = async () => {
     const video = document.getElementById("camera");
 
@@ -24,10 +21,7 @@ const cameraInitSmartphoneSupport = async () => {
         const cameraSetting = {
             audio: false,
             video: {
-                deviceId: { exact: frontCamera.deviceId },
-                width: cameraWidth,
-                height: cameraHeight,
-                facingMode: "user"
+                deviceId: { exact: frontCamera.deviceId }
             }
         };
 
@@ -47,4 +41,6 @@ const cameraInitSmartphoneSupport = async () => {
             alert(`カメラにアクセスできませんでした: ${err.name} - ${err.message}`);
         }
     }
+}
+
 }
