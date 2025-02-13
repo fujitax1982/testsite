@@ -14,7 +14,21 @@ async function concatCanvas(base, asset){
     ctx.drawImage(image1, 0, 0, canvas.width, canvas.height);
   }
 }
+function drawFrame(path){
+  const modal = "#dialog-nowloading";
+  const image = new Image();
+  image.src = path;
+  image.onload = () => {
+    const ctx = FRAME.getContext("2d");
+    ctx.clearRect(0, 0, FRAME.width, FRAME.height);
+    
+    // 背景画像を大きめに描画（キャンバスより大きく）
+    ctx.drawImage(image, 0, 0, FRAME.width * 1.5, FRAME.height * 1.5);
 
+    dialogHide(modal);
+  };
+  dialogShow(modal);
+}
 /**
  * Canvasを画像として取得
  *
