@@ -16,23 +16,26 @@
         }
         #videoContainer {
             position: relative;
-            width: 320px;
+            width: 800px;
             height: 480px;
             display: flex;
             align-items: center;
             justify-content: center;
         }
-        video, #overlay {
+        video {
             width: 100%;
             height: 100%;
             position: absolute;
             top: 0;
             left: 0;
-        }
-        video {
             border-radius: 10px;
         }
         #overlay {
+            width: 90%;
+            height: 90%;
+            position: absolute;
+            top: 5%;
+            left: 5%;
             pointer-events: none;
         }
         button {
@@ -81,3 +84,4 @@
     </script>
 </body>
 </html>
+
