@@ -17,22 +17,22 @@
         #videoContainer {
             position: relative;
             width: 320px;
-            height: 480px;
+            height: 240px;
             display: flex;
             align-items: center;
             justify-content: center;
         }
-        video {
-            width: 320px;
-            height: 480px;
-            border-radius: 10px;
-        }
-        #overlay {
+        video, #overlay {
+            width: 100%;
+            height: 100%;
             position: absolute;
             top: 0;
             left: 0;
-            width: 320px;
-            height: 480px;
+        }
+        video {
+            border-radius: 10px;
+        }
+        #overlay {
             pointer-events: none;
         }
         button {
@@ -52,6 +52,7 @@
     <canvas id="canvas" style="display: none;"></canvas>
     <script>
         const video = document.getElementById('video');
+        const overlay = document.getElementById('overlay');
         const captureBtn = document.getElementById('captureBtn');
         const canvas = document.getElementById('canvas');
         
